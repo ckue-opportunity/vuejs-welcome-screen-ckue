@@ -42,8 +42,12 @@ export default {
   data() {
     return {
       title: "Welcome to Opportunity",
-      sheet_id: "1CR1UKN0LAPNs6lWbfA2gBI2FazmWdVSFIzIwi5TG5Z4",
-      api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
+      /* Tugce's settings:
+        sheet_id: "1CR1UKN0LAPNs6lWbfA2gBI2FazmWdVSFIzIwi5TG5Z4",
+        api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
+      */
+      sheet_id: "1iLd4VMoTUFTxnaZNEEuEsqGgYtGIHXAkl-EK5yR8bcs",
+      api_token: "AIzaSyDeEt8NzZpi4z3pbn9vXElA8NqEgXRvWKI",
       entries: [],
       currentDate: "",
     };
