@@ -42,12 +42,8 @@ export default {
   data() {
     return {
       title: "Welcome to Opportunity",
-      /* Tugce's settings:
-        sheet_id: "1CR1UKN0LAPNs6lWbfA2gBI2FazmWdVSFIzIwi5TG5Z4",
-        api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
-      */
-      sheet_id: "1iLd4VMoTUFTxnaZNEEuEsqGgYtGIHXAkl-EK5yR8bcs",
-      api_token: "AIzaSyDeEt8NzZpi4z3pbn9vXElA8NqEgXRvWKI",
+      sheet_id: "1CR1UKN0LAPNs6lWbfA2gBI2FazmWdVSFIzIwi5TG5Z4",
+      api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
       entries: [],
       currentDate: "",
     };
@@ -64,6 +60,14 @@ export default {
         this.entries = response.data.valueRanges[0].values;
       });
     },
+    /*
+    getData() {
+      this.entries = [
+        ["8:25", "event 0", "title 0", "description 0"],
+        ["17:25", "event 1", "title 1", "description 1"]
+      ];
+    },
+    */
     updateCurrentDate() {
       let today = new Date();
       const currentDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
