@@ -4,18 +4,17 @@
     <span class="site-description">{{ currentDate }}</span>
 
     <!-- entry list -->
-    <ul class="entry-list">
-      <li class="entry-item">
-        <span class="entry-daytime">10:15 Uhr</span><br />
-        <h3 class="entry-title">Statischer Titel 1</h3>
-        <span class="entry-description">Statische Beschreibung 1</span><br />
-      </li>
-      <li class="entry-item">
-        <span class="entry-daytime">10:30 Uhr</span><br />
-        <h3 class="entry-title">Statischer Titel 2</h3>
-        <span class="entry-description">Statische Beschreibung 2</span><br />
+    <!-- v-if will only be shown if there are entries available -->
+    <ul v-if="entries" class="entry-list">
+      <li class="entry-item" v-for="entry in entries" :key="entry.id">
+        <span class="entry-daytime">{{entry[0]}} Uhr, {{entry[1].replaceAll("/", ".")}}</span><br />
+        <h3 class="entry-title">{{entry[2]}}</h3>
+        <span class="entry-description">{{entry[3]}}</span><br />
       </li>
     </ul>
+
+    <!-- ELSE  -->
+    <h1 v-else>Keine Events zur Zeit vorhanden!</h1>
 
     <!-- footer -->
     <footer class="footer">
@@ -36,22 +35,39 @@
 </template>
 
 <script>
+import axios from "axios"; // axios is a library for making HTTP requests to the backend
+
 export default {
   name: "App",
   data() {
     return {
       title: "Welcome to Opportunity",
+      sheet_id: "1CR1UKN0LAPNs6lWbfA2gBI2FazmWdVSFIzIwi5TG5Z4",
+      api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
       entries: [],
       currentDate: "",
     };
   },
+  computed: {
+    // computed properties are like data properties, but with a method combined and it gets executed automatically, instead of calling a function explicitly
+    gsheet_url() {
+      return `https://sheets.googleapis.com/v4/spreadsheets/${this.sheet_id}/values:batchGet?ranges=A2%3AE100&valueRenderOption=FORMATTED_VALUE&key=${this.api_token}`;
+    },
+  },
   methods: {
+    getData() {
+      axios.get(this.gsheet_url).then((response) => {
+        this.entries = response.data.valueRanges[0].values;
+      });
+    },
+    /*
     getData() {
       this.entries = [
         ["8:25", "event 0", "title 0", "description 0"],
         ["17:25", "event 1", "title 1", "description 1"]
       ];
     },
+    */
     updateCurrentDate() {
       let today = new Date();
       const currentDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
