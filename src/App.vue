@@ -4,18 +4,16 @@
     <span class="site-description">{{ currentDate }}</span>
 
     <!-- entry list -->
-    <ul class="entry-list">
-      <li class="entry-item">
-        <span class="entry-daytime">10:15 Uhr</span><br />
-        <h3 class="entry-title">Statischer Titel 1</h3>
-        <span class="entry-description">Statische Beschreibung 1</span><br />
-      </li>
-      <li class="entry-item">
-        <span class="entry-daytime">10:30 Uhr</span><br />
-        <h3 class="entry-title">Statischer Titel 2</h3>
-        <span class="entry-description">Statische Beschreibung 2</span><br />
+    <ul v-if="entries" class="entry-list">
+      <li v-for="entry in entries" :key="entry.id" class="entry-item">
+        <span class="entry-daytime">{{ entry[1] }} {{ entry[0] }} Uhr</span><br />
+        <h3 class="entry-title">{{ entry[2] }}</h3>
+        <span class="entry-description">{{ entry[3] }}</span><br />
       </li>
     </ul>
+
+    <!-- default text is only shown if the list of entries is null or undefined -->
+    <h1 v-else>Keine Events zur Zeit vorhanden!</h1>
 
     <!-- footer -->
     <footer class="footer">
@@ -41,21 +39,23 @@ export default {
   data() {
     return {
       title: "Welcome to Opportunity",
-      entries: [],
       currentDate: "",
+      entries: []
     };
   },
   methods: {
     getData() {
       this.entries = [
-        ["8:25", "event 0", "title 0", "description 0"],
-        ["17:25", "event 1", "title 1", "description 1"]
+        // Time, Date, Title, Description
+        ["17:00",	"08/09/2022",	"Abschlussfeier",	"Erfolgreich vorbei!!!"],
+        ["19:00",	"09/09/2022",	"Aufräumen",	"Bitte alle helfen"],
+        ["19:30",	"10/09/2022",	"Ausschlafen",	"Gute Nacht..."]
       ];
     },
     updateCurrentDate() {
       let today = new Date();
-      const currentDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
-      this.currentDate = currentDate;
+      this.counter++;
+      this.currentDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
     },
     refreshData() {
       this.updateCurrentDate();
@@ -64,8 +64,8 @@ export default {
   },
   mounted() {
     this.refreshData(); // get first initial data and then wait for the next
-    setInterval(this.refreshData, 18000000); // wait 30mins for next update (1000 * 60 * 30)
-  },
+    setInterval(this.refreshData, 60000); // wait one minute for next update (1000 * 60)
+  }
 };
 </script>
 
